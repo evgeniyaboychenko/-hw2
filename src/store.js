@@ -70,6 +70,9 @@ class Store {
         if (item.code === code) {
           item.selected = !item.selected;
         }
+        else {
+          item.selected = false;
+        }
         return item;
       }),
     });
