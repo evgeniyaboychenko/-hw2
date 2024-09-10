@@ -44,7 +44,7 @@ class Store {
   addItem() {
     this.setState({
       ...this.state,
-      list: [...this.state.list, { code: this.state.list.length + 1, title: 'Новая запись' }],
+      list: [...this.state.list, { code: this.state.list.length + 1, title: 'Новая запись', countSelected: 0 }],
     });
   }
 
@@ -72,6 +72,19 @@ class Store {
         }
         else {
           item.selected = false;
+        }
+        return item;
+      }),
+    });
+  }
+
+  // счетчик совершенных выделений для записи
+  incrementSelectedItem() {
+    this.setState({
+      ...this.state,
+      list: this.state.list.map(item => {
+        if (item.selected) {
+          item.countSelected ++;
         }
         return item;
       }),
