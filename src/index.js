@@ -14,6 +14,7 @@ const store = new Store({
     { code: 6, title: 'Шестая запись' , countSelected: 0},
     { code: 7, title: 'Седьмая запись' , countSelected: 0},
   ],
+  nextCode: 0,
 });
 
 const root = createRoot(document.getElementById('root'));
