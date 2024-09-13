@@ -1,4 +1,11 @@
 const propNames = new Set(['id', 'className', 'textContent', 'onclick']);
+const ruOrdinalRules = new Intl.PluralRules("ru-RU", { type: "cardinal" });
+const suffixes = new Map([
+  ["one", ""],
+  ["few", "а"],
+  ["many", ""],
+  ["other", ""],
+]);
 
 /**
  * Создание элемента со свойствами и вложенными элементами
@@ -26,3 +33,11 @@ export function createElement(name, props = {}, ...children) {
 
   return element;
 }
+
+// определяем окончание в зависимости от числа
+export const formatOrdinals = (n) => {
+  const rule = ruOrdinalRules.select(n);
+  const suffix = suffixes.get(rule);
+  return suffix;
+};
+

@@ -1,5 +1,5 @@
 import React from 'react';
-import { createElement } from './utils.js';
+import { createElement, formatOrdinals } from './utils.js';
 import './styles.css';
 
 /**
@@ -31,11 +31,15 @@ function App({ store }) {
               >
                 <div className="Item-code">{item.code}</div>
                 <div className="Item-title">{item.title}
-                  <span>{item.countSelected > 0 ? ` | Выделяли ${item.countSelected} раз` : ''}</span>
+                  <span>{item.countSelected > 0 ? ` | Выделяли ${item.countSelected} раз${formatOrdinals(item.countSelected)}` : ''}</span>
                 </div>
 
                 <div className="Item-actions">
-                  <button onClick={() => store.deleteItem(item.code)}>Удалить</button>
+                  <button onClick={(evt) => {
+                    store.deleteItem(item.code);
+                    evt.stopPropagation();
+                  }
+                  }>Удалить</button>
                 </div>
               </div>
             </div>
