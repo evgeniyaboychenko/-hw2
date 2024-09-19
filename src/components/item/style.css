@@ -2,6 +2,7 @@
   display: flex;
   justify-content: flex-start;
   transition: background-color 1s;
+  align-items: baseline;
 }
 
 .Item_selected {
@@ -14,12 +15,35 @@
 }
 
 .Item-title {
-  width: 100%;
+  /* width: 100%; */
   padding: 20px 10px;
+  margin-right: auto;
 }
+
+.Item-price {
+  /* width: 100%; */
+  padding: 20px 15px;
+  font-size: 18px;
+}
+
+.Item-count {
+  padding: 20px 10px;
+  margin-left: 40px;
+  font-size: 18px;
+}
+
 
 .Item-actions {
   display: flex;
   justify-content: flex-end;
   padding: 20px 20px 20px 10px;
+}
+.Item-actions button {
+  border-radius: 2px;
+  border: 1px solid #767676;
+  background: #EFEFEF;
+  padding-top: 3px;
+  padding-bottom: 2px;
+  padding-left: 9px;
+  padding-right: 8px;
 }

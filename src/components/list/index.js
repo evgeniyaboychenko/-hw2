@@ -1,14 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { bool } from 'prop-types';
 import Item from '../item';
+import ItemBasket from '../basket-item';
 import './style.css';
 
-function List({ list, onDeleteItem, onSelectItem }) {
+function List({ list, onDeleteItem, onAddProduct, isModal}) {
   return (
     <div className="List">
       {list.map(item => (
         <div key={item.code} className="List-item">
-          <Item item={item} onDelete={onDeleteItem} onSelect={onSelectItem} />
+          {isModal ? <ItemBasket item={item} onDelete={onDeleteItem}/> :  <Item item={item} onAddProduct={onAddProduct} /> }
         </div>
       ))}
     </div>
@@ -16,18 +17,20 @@ function List({ list, onDeleteItem, onSelectItem }) {
 }
 
 List.propTypes = {
+  isModal: bool,
   list: PropTypes.arrayOf(
     PropTypes.shape({
       code: PropTypes.number,
     }),
   ).isRequired,
   onDeleteItem: PropTypes.func,
-  onSelectItem: PropTypes.func,
+  onAddProduct: PropTypes.func,
 };
 
 List.defaultProps = {
   onDeleteItem: () => {},
-  onSelectItem: () => {},
+  onAddProduct: () => {},
+  isModal: false,
 };
 
 export default React.memo(List);

@@ -1,8 +1,9 @@
-import React, { useCallback } from 'react';
+import React, { useCallback , useState} from 'react';
 import List from './components/list';
 import Controls from './components/controls';
 import Head from './components/head';
 import PageLayout from './components/page-layout';
+import Modal from './components/modal';
 
 /**
  * Приложение
@@ -11,36 +12,64 @@ import PageLayout from './components/page-layout';
  */
 function App({ store }) {
   const list = store.getState().list;
+  const listBasket = store.getState().listBasket;
+
+  const [isShowModal, setIsShowModal ] = useState(false);
 
   const callbacks = {
-    onDeleteItem: useCallback(
+    onCloseModal: () => {
+      setIsShowModal(false);
+    },
+
+    onShowModal: () => {
+      setIsShowModal(true);
+    },
+
+    // onDeleteItem: useCallback(
+    //   code => {
+    //     store.deleteItem(code);
+    //   },
+    //   [store],
+    // ),
+
+    onDeleteItemBasket: useCallback(
       code => {
-        store.deleteItem(code);
+        store.deleteItemBasket(code);
       },
       [store],
     ),
 
-    onSelectItem: useCallback(
+    // onSelectItem: useCallback(
+    //   code => {
+    //     store.selectItem(code);
+    //   },
+    //   [store],
+    // ),
+
+    // onAddItem: useCallback(() => {
+    //   store.addItem();
+    // }, [store]),
+
+    onAddProduct:  useCallback(
       code => {
-        store.selectItem(code);
+        store.addProduct(code);
       },
       [store],
     ),
 
-    onAddItem: useCallback(() => {
-      store.addItem();
-    }, [store]),
   };
 
   return (
     <PageLayout>
-      <Head title="Приложение на чистом JS" />
-      <Controls onAdd={callbacks.onAddItem} />
+      <Head>
+        <h1>Магазин</h1>
+      </Head>
+      <Controls onShowModal={callbacks.onShowModal} listBasket = {listBasket} />
       <List
         list={list}
-        onDeleteItem={callbacks.onDeleteItem}
-        onSelectItem={callbacks.onSelectItem}
+        onAddProduct={callbacks.onAddProduct}
       />
+      <Modal isShowModal={isShowModal} onCloseModal={callbacks.onCloseModal} list={listBasket} onDeleteItemBasket={callbacks.onDeleteItemBasket}/>
     </PageLayout>
   );
 }

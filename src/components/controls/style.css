@@ -3,3 +3,16 @@
   justify-content: flex-end;
   padding: 20px;
 }
+
+.Controls-btn {
+  padding: 1px 10px;
+}
+
+.Controls-info {
+  margin-right: 25px;
+  font-size: 18px;
+}
+
+.Controls-info b{
+  margin-left: 10px;
+}
