@@ -25,30 +25,12 @@ function App({ store }) {
       setIsShowModal(true);
     },
 
-    // onDeleteItem: useCallback(
-    //   code => {
-    //     store.deleteItem(code);
-    //   },
-    //   [store],
-    // ),
-
     onDeleteItemBasket: useCallback(
       code => {
         store.deleteItemBasket(code);
       },
       [store],
     ),
-
-    // onSelectItem: useCallback(
-    //   code => {
-    //     store.selectItem(code);
-    //   },
-    //   [store],
-    // ),
-
-    // onAddItem: useCallback(() => {
-    //   store.addItem();
-    // }, [store]),
 
     onAddProduct:  useCallback(
       code => {

@@ -10,7 +10,7 @@
   overflow-x: hidden;
 }
 
-.Modal__overlay {
+.Modal-Overlay {
   position: fixed;
   top: 0;
   right: 0;
@@ -18,16 +18,9 @@
   left: 0;
   z-index: 1000;
   background-color: rgba(0, 0, 0, 0.25);
-  transition: background-color 0.3s ease-in-out;
-  /* animation-name: fadeIn; */
-  animation-duration: 0.3s;
-  animation-timing-function: ease-in-out;
-  animation-fill-mode: both;
 }
 
-
-
-.Modal__container {
+.Modal-Container {
   position: relative;
   overflow: hidden;
   z-index: 1050;
@@ -35,23 +28,18 @@
   flex-direction: column;
   width: 100%;
   max-width: 958px;
-  /* padding: 32px; */
   margin: auto;
   background-color: #f2f7fc;
   border: 1px solid #ccc;
   border-radius: 10px;
-  /* animation-name: fadeIn; */
-  animation-duration: 0.3s;
-  animation-timing-function: ease-out;
-  animation-fill-mode: forwards;
 }
 
-.Modal__content {
+.Modal-Content {
   padding-top: 70px;
   padding-bottom: 90px;
 }
 
-.Modal__close {
+.Modal-Close {
   margin-right: 10px;
 }
 

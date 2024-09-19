@@ -1,35 +1,40 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { plural, priceFormat } from '../../utils';
+import { priceFormat } from '../../utils';
 import './style.css';
 
-function Item({item, onAddProduct = () => {}}) {
+function ItemBasket({item, onDelete=()=> {} }) {
 
   const callbacks = {
-    onAddProduct: () => {
-      onAddProduct(item.code);
+    onDeleteItemBasket: () => {
+      onDelete(item.code);
     },
   };
 
   return (
-    <div className='Item'>
+    <div
+      className={'Item'}
+      onClick={callbacks.onClick}
+    >
       <div className="Item-Code">{item.code}</div>
       <div className="Item-Title">{item.title}</div>
       <div className="Item-Price">{priceFormat(item.price)} ₽</div>
+      <div className="Item-Count">{item.count} шт</div>
       <div className="Item-Actions">
-        <button onClick={callbacks.onAddProduct}>Добавить</button>
+        <button onClick={callbacks.onDeleteItemBasket}>Удалить</button>
       </div>
     </div>
   );
 }
 
-Item.propTypes = {
+ItemBasket.propTypes = {
   item: PropTypes.shape({
     code: PropTypes.number,
     title: PropTypes.string,
     price: PropTypes.number,
+    count: PropTypes.number,
   }).isRequired,
-  onAddProduct: PropTypes.func,
+  onDelete: PropTypes.func,
 };
 
-export default React.memo(Item);
+export default React.memo(ItemBasket);

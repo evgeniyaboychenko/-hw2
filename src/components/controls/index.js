@@ -1,41 +1,39 @@
-import React, { useState }from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import './style.css';
 import { plural, priceFormat } from '../../utils';
 
-function Controls(props) {
-  const {listBasket} = props;
-  // const [isShowModal, setModalIsShow ] = useState(false);
+function Controls({listBasket, onShowModal = ()=> {}}) {
 
-  // const callbacks = {
-  //   onShowModal: () => {
-  //     setModalIsShow(true);
-  //   },
-  // }
-
+  const callbacks = {
+    onShowModal: () => {
+      onShowModal();
+    },
+  };
   return (
     <div className="Controls">
-      <div className="Controls-info">В корзине:
+      <div className="Controls-Info">В корзине:
         {!listBasket.length ? <b>пусто</b> : <b>{listBasket.length} {plural(listBasket.length,  {
               one: 'товар',
               few: 'товара',
               many: 'товаров',
             })}  / {priceFormat(listBasket.reduce((acc, item)=> acc + item.price*item.count, 0))} ₽</b> }
       </div>
-      <button className="Controls-btn" onClick={() =>props.onShowModal()}>Перейти</button>
+      <button className="Controls-Btn" onClick={callbacks.onShowModal}>Перейти</button>
     </div>
   );
 }
 
 Controls.propTypes = {
-  onAdd: PropTypes.func,
+  listBasket: PropTypes.arrayOf(
+    PropTypes.shape({
+      code: PropTypes.number,
+      title: PropTypes.string,
+      price: PropTypes.number,
+      count: PropTypes.number,
+    }),
+  ).isRequired,
   onShowModal:  PropTypes.func,
-
-};
-
-Controls.defaultProps = {
-  onAdd: () => {},
-  onShowModal: () => {},
 };
 
 export default React.memo(Controls);

@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import List from '../list';
-// import Controls from './components/controls';
 import Head from '../head';
 import Result from '../result';
 import './style.css';
@@ -11,20 +10,19 @@ import './style.css';
  * @param store {Store} Хранилище состояния приложения
  * @returns {React.ReactElement}
  */
-function Modal(props) {
-  const {isShowModal,  onCloseModal, list, onDeleteItemBasket } = props;
+function Modal({isShowModal=false, list,  onCloseModal=() => {}, onDeleteItemBasket=() => {}}) {
 
   return (
     <>
       {isShowModal && (
         <div className='Modal'>
-          <div className="Modal__overlay" onClick={() => onCloseModal()}></div>
-          <div className="Modal__container">
+          <div className="Modal-Overlay" onClick={onCloseModal}></div>
+          <div className="Modal-Container">
             <Head>
                 <h1>Корзина</h1>
-                <button className='Modal__close' onClick={() => onCloseModal()}>Закрыть</button>
+                <button className='Modal-Close' onClick={onCloseModal}>Закрыть</button>
             </Head>
-            <div className="Modal__content">
+            <div className="Modal-Content">
               <List
                 isModal = {isShowModal}
                 list={list}
@@ -41,15 +39,10 @@ function Modal(props) {
 }
 
 Modal.propTypes = {
-  list: PropTypes.array,
+  list: PropTypes.array.isRequired,
   isShowModal: PropTypes.bool,
   onDeleteItem: PropTypes.func,
   onCloseModal:  PropTypes.func,
 };
 
-Modal.defaultProps = {
-  onDeleteItem: () => {},
-  onCloseModal: () => {},
-};
-
-export default Modal;
+export default React.memo(Modal);

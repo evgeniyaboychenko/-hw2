@@ -56,6 +56,5 @@ export function generateCode2() {
  * @returns {String}
  */
 export function priceFormat(value) {
-  const ru = new Intl.NumberFormat("ru").format(value);
-  return ru;
+  return new Intl.NumberFormat("ru").format(value);
 }
