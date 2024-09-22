@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './style.css';
 import { plural, priceFormat } from '../../utils';
 
-function Controls({listBasket, onShowModal = ()=> {}}) {
+function Controls({onShowModal = ()=> {}, totalQuantity, finalPrice }) {
 
   const callbacks = {
     onShowModal: () => {
@@ -13,11 +13,11 @@ function Controls({listBasket, onShowModal = ()=> {}}) {
   return (
     <div className="Controls">
       <div className="Controls-Info">В корзине:
-        {!listBasket.length ? <b>пусто</b> : <b>{listBasket.length} {plural(listBasket.length,  {
+        {!totalQuantity ? <b>пусто</b> : <b>{totalQuantity} {plural(totalQuantity,  {
               one: 'товар',
               few: 'товара',
               many: 'товаров',
-            })}  / {priceFormat(listBasket.reduce((acc, item)=> acc + item.price*item.count, 0))} ₽</b> }
+            })}  / {priceFormat(finalPrice)} ₽</b> }
       </div>
       <button className="Controls-Btn" onClick={callbacks.onShowModal}>Перейти</button>
     </div>
@@ -25,14 +25,8 @@ function Controls({listBasket, onShowModal = ()=> {}}) {
 }
 
 Controls.propTypes = {
-  listBasket: PropTypes.arrayOf(
-    PropTypes.shape({
-      code: PropTypes.number,
-      title: PropTypes.string,
-      price: PropTypes.number,
-      count: PropTypes.number,
-    }),
-  ).isRequired,
+  finalPrice: PropTypes.number.isRequired,
+  totalQuantity: PropTypes.number.isRequired,
   onShowModal:  PropTypes.func,
 };
 

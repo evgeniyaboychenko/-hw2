@@ -3,7 +3,10 @@ import List from './components/list';
 import Controls from './components/controls';
 import Head from './components/head';
 import PageLayout from './components/page-layout';
-import Modal from './components/modal';
+import ModalLayout from './components/modal-layout';
+import Result from './components/result';
+import Item from './components/item';
+import ItemBasket from './components/item-basket';
 
 /**
  * Приложение
@@ -13,6 +16,8 @@ import Modal from './components/modal';
 function App({ store }) {
   const list = store.getState().list;
   const listBasket = store.getState().listBasket;
+  const totalQuantity = store.getState().totalQuantity;
+  const finalPrice= store.getState().finalPrice;
 
   const [isShowModal, setIsShowModal ] = useState(false);
 
@@ -42,17 +47,37 @@ function App({ store }) {
   };
 
   return (
-    <PageLayout>
-      <Head>
-        <h1>Магазин</h1>
-      </Head>
-      <Controls onShowModal={callbacks.onShowModal} listBasket = {listBasket} />
-      <List
-        list={list}
-        onAddProduct={callbacks.onAddProduct}
-      />
-      <Modal isShowModal={isShowModal} onCloseModal={callbacks.onCloseModal} list={listBasket} onDeleteItemBasket={callbacks.onDeleteItemBasket}/>
-    </PageLayout>
+    <>
+      <PageLayout>
+        <Head>
+          <h1>Магазин</h1>
+        </Head>
+        <Controls onShowModal={callbacks.onShowModal} totalQuantity={totalQuantity} finalPrice={finalPrice}/>
+        <List>
+          {list.map(item => (
+            <div key={item.code} className="List-Item">
+              <Item item={item} onAddProduct={callbacks.onAddProduct} />
+          </div>
+          ))}
+        </List>
+      </PageLayout>
+      <ModalLayout isShowModal={isShowModal} onCloseModal={callbacks.onCloseModal}>
+        <Head>
+          <h1>Корзина</h1>
+          <button className='Modal-Close' onClick={callbacks.onCloseModal}>Закрыть</button>
+        </Head>
+        <div className="Modal-Content">
+          <List>
+            {listBasket.map(item => (
+              <div key={item.code} className="List-Item">
+                <ItemBasket item={item} onDeleteItemBasket={callbacks.onDeleteItemBasket}/>
+            </div>
+            ))}
+          </List>
+          <Result finalPrice={finalPrice}/>
+        </div>
+      </ModalLayout>
+    </>
   );
 }
 

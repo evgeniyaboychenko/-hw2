@@ -3,19 +3,16 @@ import PropTypes from 'prop-types';
 import { priceFormat } from '../../utils';
 import './style.css';
 
-function ItemBasket({item, onDelete=()=> {} }) {
+function ItemBasket({item, onDeleteItemBasket=()=> {} }) {
 
   const callbacks = {
     onDeleteItemBasket: () => {
-      onDelete(item.code);
+      onDeleteItemBasket(item.code);
     },
   };
 
   return (
-    <div
-      className={'Item'}
-      onClick={callbacks.onClick}
-    >
+    <div className={'Item'}>
       <div className="Item-Code">{item.code}</div>
       <div className="Item-Title">{item.title}</div>
       <div className="Item-Price">{priceFormat(item.price)} ₽</div>
