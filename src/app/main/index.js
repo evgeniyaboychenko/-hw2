@@ -6,18 +6,25 @@ import BasketTool from '../../components/basket-tool';
 import List from '../../components/list';
 import useStore from '../../store/use-store';
 import useSelector from '../../store/use-selector';
+import Pagination from '../../components/pagination';
+import Wrapper from '../../components/wrapper';
+import { Link } from "react-router-dom";
+
+import { getPageCount } from '../../utils';
 
 function Main() {
   const store = useStore();
 
   useEffect(() => {
-    store.actions.catalog.load();
+    store.actions.catalog.load(1);
   }, []);
 
   const select = useSelector(state => ({
     list: state.catalog.list,
     amount: state.basket.amount,
     sum: state.basket.sum,
+    count: state.catalog.count,
+    activePageNumber: state.catalog.activePageNumber,
   }));
 
   const callbacks = {
@@ -25,6 +32,8 @@ function Main() {
     addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
     // Открытие модалки корзины
     openModalBasket: useCallback(() => store.actions.modals.open('basket'), [store]),
+    //загрузка данных при переключении страницы
+    loadingData: useCallback(pageNumber => store.actions.catalog.load(pageNumber), [store]),
   };
 
   const renders = {
@@ -37,10 +46,22 @@ function Main() {
   };
 
   return (
-    <PageLayout>
-      <Head title="Магазин" />
-      <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount} sum={select.sum} />
-      <List list={select.list} renderItem={renders.item} />
+    <PageLayout
+      head = {<Head title="Магазин" />}
+      children = {
+        <>
+          <Wrapper>
+            <>
+              <span className='link'>
+                Главная
+              </span>
+              <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount} sum={select.sum} />
+            </>
+          </Wrapper>
+          <List list={select.list} renderItem={renders.item} />
+          <Pagination pageCount = {getPageCount(select.count)} activePageNumber={select.activePageNumber} onSwitch = {callbacks.loadingData}></Pagination>
+        </>
+    }>
     </PageLayout>
   );
 }

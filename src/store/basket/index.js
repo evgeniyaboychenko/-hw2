@@ -9,6 +9,7 @@ class Basket extends StoreModule {
     };
   }
 
+
   /**
    * Добавление товара в корзину
    * @param _id Код товара

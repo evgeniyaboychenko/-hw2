@@ -1,0 +1,21 @@
+.Information {
+  padding: 40px;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.Information-Item {
+  font-size: 18px;
+}
+
+.Information-Item b{
+  margin-left: 5px;
+}
+
+.Information-Price {
+  font-weight: 700;
+  font-size: 24px;
+}

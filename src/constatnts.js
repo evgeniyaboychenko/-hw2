@@ -1,0 +1,3 @@
+const ITEM_COUNT_ON_PAGE = 10;
+export {ITEM_COUNT_ON_PAGE};
+
