@@ -23,8 +23,6 @@ class ProductDetails extends StoreModule {
 
   async load(id) {
     const response = await fetch(`/api/v1/articles/${id}?fields=*,madeIn(title,code),category(title)`);
-    // (`/api/v1/articles?limit=${ITEM_COUNT_ON_PAGE}&skip=${(activePageNumber-1) * ITEM_COUNT_ON_PAGE }}&fields=items(_id, title, price),count`);
-
     const json = await response.json();
     this.setState(
       {

@@ -52,9 +52,11 @@ function Main() {
         <>
           <Wrapper>
             <>
-              <span className='link'>
-                Главная
-              </span>
+              <nav className = 'Nav'>
+                <span className='Link'>
+                  Главная
+                </span>
+              </nav>
               <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount} sum={select.sum} />
             </>
           </Wrapper>

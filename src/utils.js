@@ -39,11 +39,3 @@ export function getPageCount(count) {
   return Math.ceil(count/ITEM_COUNT_ON_PAGE);
 }
 
-
-export async function load (id) {
-  const response = await fetch(`/api/v1/articles/${id}`);
-  (`/api/v1/articles?limit=${ITEM_COUNT_ON_PAGE}&skip=${(activePageNumber-1) * ITEM_COUNT_ON_PAGE }}&fields=items(_id, title, price),count`);
-  const json = await response.json();
-  const item = json.result.item;
-  return item;
-};

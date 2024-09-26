@@ -6,7 +6,6 @@ import Wrapper from '../../components/wrapper';
 import BasketTool from '../../components/basket-tool';
 import useStore from '../../store/use-store';
 import useSelector from '../../store/use-selector';
-// import Main from '../main';
 import Information from '../../components/information';
 import { Link, useParams, useLocation } from "react-router-dom";
 
@@ -16,7 +15,7 @@ function ProductDetails() {
 
   useEffect(() => {
     store.actions.productDetails.load(params.id);
-  }, []);
+  }, [params.id]);
 
   const select = useSelector(state => ({
     id: state.productDetails.id,
@@ -27,11 +26,8 @@ function ProductDetails() {
     category: state.productDetails.category,
     edition: state.productDetails.edition,
     price: state.productDetails.price,
-    // list: state.catalog.list,
     amount: state.basket.amount,
     sum: state.basket.sum,
-    // count: state.catalog.count,
-    // activePageNumber: state.catalog.activePageNumber,
   }));
 
   const info = {
@@ -52,15 +48,6 @@ function ProductDetails() {
     openModalBasket: useCallback(() => store.actions.modals.open('basket'), [store]),
   };
 
-  // const renders = {
-  //   item: useCallback(
-  //     item => {
-  //       return <Item item={item} onAdd={callbacks.addToBasket} />;
-  //     },
-  //     [callbacks.addToBasket],
-  //   ),
-  // };
-
   return (
     <PageLayout
       head= {<Head title={info.title} />}
@@ -68,10 +55,12 @@ function ProductDetails() {
         <>
           <Wrapper>
             <>
-              <Link to = {`/`} href="index.html" className='link'>
-                Главная
-              </Link>
-              <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount} sum={select.sum} />
+              <nav className = 'Nav'>
+                <Link to = {`/`} href="index.html" className='Link'>
+                  Главная
+                </Link>
+              </nav>
+              <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount} sum={select.sum}/>
             </>
           </Wrapper>
           <Information info={info} onAdd={callbacks.addToBasket} />

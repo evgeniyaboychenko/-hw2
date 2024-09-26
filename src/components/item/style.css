@@ -32,3 +32,23 @@
   white-space: nowrap;
   font-size: 18px;
 }
+
+.Link {
+  text-decoration: none;
+  color: initial;
+}
+
+.Link:hover,
+.Link:focus,
+.Link:active   {
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+  color: initial;
+}
+
+.Nav .Link {
+  color: #0087E9;
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+}
+

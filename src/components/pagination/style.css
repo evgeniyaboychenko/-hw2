@@ -16,12 +16,22 @@
   padding: 4px 9px;
   display: flex;
   font-size: 20px;
+  cursor: pointer;
 }
 
+.Pagination-Item:hover {
+  background-color: #E1E1E1;
+}
 
 .Pagination-Item.isActive {
   color: #fff;
   background-color: #0087E9;
+}
+
+.Pagination-Item.isActive:hover {
+  background-color: #0087E9;
+  cursor: default;
+
 }
 
 .Pagination-ItemSpace {

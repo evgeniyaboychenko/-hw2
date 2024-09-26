@@ -15,7 +15,7 @@ function Item({item, onAdd= () => {}}) {
 
   return (
     <div className={cn()}>
-      <Link className={`${cn('title')} link`} to={`${item._id}`}>{item.title}</Link>
+      <Link className={`${cn('title')} Link`} to={`${item._id}`}>{item.title}</Link>
       <div className={cn('actions')}>
         <div className={cn('price')}>{numberFormat(item.price)} ₽</div>
         <button onClick={callbacks.onAdd}>Добавить</button>

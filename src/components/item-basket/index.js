@@ -6,18 +6,17 @@ import PropTypes from 'prop-types';
 import './style.css';
 import { Link } from "react-router-dom";
 
-function ItemBasket({item , onRemove= () => {}}) {
+function ItemBasket({item , onRemove= () => {} , onLinkClick = () => {}}) {
   const cn = bem('ItemBasket');
 
   const callbacks = {
     onRemove: e => onRemove(item._id),
+    onLinkClick: () => onLinkClick(),
   };
 
   return (
     <div className={cn()}>
-      {/* <Link className={`${cn('title')} link`} to={`${item._id}`}>{item.title}</Link> */}
-      {/*<div className={cn('code')}>{props.item._id}</div>*/}
-      <div className={cn('title')}>{item.title}</div>
+      <Link className={`${cn('title')} Link`} to={`${item._id}`} onClick={callbacks.onLinkClick}>{item.title}</Link>
       <div className={cn('right')}>
         <div className={cn('cell')}>{numberFormat(item.price)} ₽</div>
         <div className={cn('cell')}>{numberFormat(item.amount || 0)} шт</div>
@@ -37,10 +36,7 @@ ItemBasket.propTypes = {
     amount: PropTypes.number,
   }).isRequired,
   onRemove: propTypes.func,
+  onLinkClick: propTypes.func,
 };
-
-// ItemBasket.defaultProps = {
-//   onRemove: () => {},
-// };
 
 export default memo(ItemBasket);
