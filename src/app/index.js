@@ -22,8 +22,8 @@ function App() {
     <>
       <Router>
         <Routes>
-          <Route path="/" element={<Main />} errorElement={<ErrorBoundary />}/>
-          <Route path=":id" element={<ProductDetails />} errorElement={<ErrorBoundary />}/>
+          <Route path="/" element={<Main />}/>
+          <Route path="products/:id" element={<ProductDetails />}/>
         </Routes>
         {activeModal === 'basket' && <Basket />}
       </Router>

@@ -1,6 +1,6 @@
 import { codeGenerator } from '../../utils';
 import StoreModule from '../module';
-import { ITEM_COUNT_ON_PAGE } from '../../constatnts';
+import { ITEM_COUNT_ON_PAGE } from '../../constants';
 
 class ProductDetails extends StoreModule {
   constructor(store, name) {
@@ -27,7 +27,7 @@ class ProductDetails extends StoreModule {
     this.setState(
       {
         ...this.getState(),
-        id: json.result._id,
+        _id: json.result._id,
         title: json.result.title,
         description: json.result.description,
         madeIn: json.result.madeIn.title,

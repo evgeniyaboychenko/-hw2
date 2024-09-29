@@ -27,7 +27,8 @@ function Pagination({pageCount, activePageNumber, onSwitch=()=>{}}) {
   return (
     <ul className={cn()}>
       {getPaginationArray(activePageNumber, pageCount).map((item, index)=>
-        (<li key={index} className={item.status === 'space'? 'Pagination-ItemSpace': `Pagination-Item ${item.status === 'active' && 'isActive'}`} onClick ={(item.status!=='space'&&item.status !== 'active') ?  callbacks.onSwitch: ()=>{}}>{item.text}</li>))}
+        (<li key={index} className={item.status === 'space'? 'Pagination-ItemSpace': `Pagination-Item ${item.status === 'active' && 'isActive'}`} onClick ={(item.status!=='space'&&item.status !== 'active') ?  callbacks.onSwitch: ()=>{}}>
+          <span>{item.text}</span></li>))}
     </ul>
   );
 }

@@ -3,13 +3,13 @@ import Item from '../../components/item';
 import PageLayout from '../../components/page-layout';
 import Head from '../../components/head';
 import BasketTool from '../../components/basket-tool';
+import { Pages_Ids, menuList } from '../../constants';
 import List from '../../components/list';
 import useStore from '../../store/use-store';
 import useSelector from '../../store/use-selector';
+import Menu from '../../components/menu';
 import Pagination from '../../components/pagination';
 import Wrapper from '../../components/wrapper';
-import { Link } from "react-router-dom";
-
 import { getPageCount } from '../../utils';
 
 function Main() {
@@ -29,7 +29,7 @@ function Main() {
 
   const callbacks = {
     // Добавление в корзину
-    addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
+    addToBasket: useCallback((basketItem) => store.actions.basket.addToBasket(basketItem), [store]),
     // Открытие модалки корзины
     openModalBasket: useCallback(() => store.actions.modals.open('basket'), [store]),
     //загрузка данных при переключении страницы
@@ -39,7 +39,7 @@ function Main() {
   const renders = {
     item: useCallback(
       item => {
-        return <Item item={item} onAdd={callbacks.addToBasket} />;
+        return <Item item={item} onAdd={callbacks.addToBasket} linkTo={`products/${item._id}`} />;
       },
       [callbacks.addToBasket],
     ),
@@ -52,11 +52,7 @@ function Main() {
         <>
           <Wrapper>
             <>
-              <nav className = 'Nav'>
-                <span className='Link'>
-                  Главная
-                </span>
-              </nav>
+              <Menu currenPageId = {Pages_Ids.MAIN} menuList= {menuList}/>
               <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount} sum={select.sum} />
             </>
           </Wrapper>

@@ -1,11 +1,13 @@
 import { memo, useCallback, useEffect } from 'react';
 import Item from '../../components/item';
 import PageLayout from '../../components/page-layout';
+import { Pages_Ids, menuList } from '../../constants';
 import Head from '../../components/head';
 import Wrapper from '../../components/wrapper';
 import BasketTool from '../../components/basket-tool';
 import useStore from '../../store/use-store';
 import useSelector from '../../store/use-selector';
+import Menu from '../../components/menu';
 import Information from '../../components/information';
 import { Link, useParams, useLocation } from "react-router-dom";
 
@@ -18,7 +20,7 @@ function ProductDetails() {
   }, [params.id]);
 
   const select = useSelector(state => ({
-    id: state.productDetails.id,
+    _id: state.productDetails._id,
     title: state.productDetails.title,
     description: state.productDetails.description,
     madeIn: state.productDetails.madeIn,
@@ -31,7 +33,7 @@ function ProductDetails() {
   }));
 
   const info = {
-    id: select.id,
+    _id: select._id,
     title: select.title,
     description: select.description,
     madeIn: select.madeIn,
@@ -43,7 +45,7 @@ function ProductDetails() {
 
   const callbacks = {
     // Добавление в корзину
-    addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
+    addToBasket: useCallback((basketItem) => store.actions.basket.addToBasket(basketItem), [store]),
     // Открытие модалки корзины
     openModalBasket: useCallback(() => store.actions.modals.open('basket'), [store]),
   };
@@ -55,11 +57,7 @@ function ProductDetails() {
         <>
           <Wrapper>
             <>
-              <nav className = 'Nav'>
-                <Link to = {`/`} href="index.html" className='Link'>
-                  Главная
-                </Link>
-              </nav>
+              <Menu currenPageId = {''} menuList= {menuList}/>
               <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount} sum={select.sum}/>
             </>
           </Wrapper>

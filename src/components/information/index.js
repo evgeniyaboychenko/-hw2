@@ -7,8 +7,14 @@ import './style.css';
 function Information({info, onAdd = () => {}}) {
   const cn = bem('Information');
 
+  const basketItem = {
+    _id: info._id,
+    title: info.title,
+    price: info.price,
+  }
+
   const callbacks = {
-    onAdd: e => onAdd(info.id),
+    onAdd: e => onAdd(basketItem),
   };
 
   return (
@@ -33,7 +39,7 @@ function Information({info, onAdd = () => {}}) {
 
 Information.propTypes = {
   info: PropTypes.shape({
-    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    _id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     description: PropTypes.string,
     madeIn:  PropTypes.string,
     category:  PropTypes.string,

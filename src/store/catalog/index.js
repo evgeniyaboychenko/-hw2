@@ -1,6 +1,6 @@
 import { codeGenerator } from '../../utils';
 import StoreModule from '../module';
-import { ITEM_COUNT_ON_PAGE } from '../../constatnts';
+import { ITEM_COUNT_ON_PAGE } from '../../constants';
 
 class Catalog extends StoreModule {
   constructor(store, name) {

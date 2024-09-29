@@ -1,22 +1,29 @@
 .Pagination {
-
   margin: 0;
   padding: 0;
   list-style: none;
   display: flex;
-  gap: 10px;
   margin-top: 20px;
   margin-right: 20px;
   justify-content: flex-end;
+  align-items: center;
 }
 
 .Pagination-Item {
   color: #000;
   background-color: transparent;
-  padding: 4px 9px;
+  padding: 2px 6px;
   display: flex;
-  font-size: 20px;
+  font-size: 16px;
+  line-height: 1;
   cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  max-height: 20px;
+}
+
+.Pagination-Item span {
+
 }
 
 .Pagination-Item:hover {
@@ -35,17 +42,10 @@
 }
 
 .Pagination-ItemSpace {
-  font-size: 20px;
-  padding: 4px 9px;
+  font-size: 16px;
+  line-height: 1;
+  padding: 2px 6px;
   display: flex;
   color: #CCCCCC;
   background-color: transparent;
-  /* background-image: url('../images/icons/question-mark.svg');
-  background-repeat: no-repeat;
-  background-position: 50% 50%; */
 }
-/*
-.Pagination-Item_next {
-    background-color: #CCCCCC;
-
-  } */

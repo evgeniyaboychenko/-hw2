@@ -1,0 +1,24 @@
+.Nav
+
+.Nav-List {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.Nav-Link {
+  color: #0087E9;
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+}
+
+.Nav-Link:hover,
+.Nav-Link:focus,
+.Nav-Link:active   {
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+  color: initial;
+}
+

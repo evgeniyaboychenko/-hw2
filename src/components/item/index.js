@@ -6,16 +6,16 @@ import './style.css';
 import { Link } from "react-router-dom";
 
 
-function Item({item, onAdd= () => {}}) {
+function Item({item, onAdd= () => {}, linkTo}) {
   const cn = bem('Item');
 
   const callbacks = {
-    onAdd: e => onAdd(item._id),
+    onAdd: e => onAdd(item),
   };
 
   return (
     <div className={cn()}>
-      <Link className={`${cn('title')} Link`} to={`${item._id}`}>{item.title}</Link>
+      <Link className={`${cn('title')} Link`} to={linkTo}>{item.title}</Link>
       <div className={cn('actions')}>
         <div className={cn('price')}>{numberFormat(item.price)} ₽</div>
         <button onClick={callbacks.onAdd}>Добавить</button>
@@ -31,6 +31,7 @@ Item.propTypes = {
     price: PropTypes.number,
   }).isRequired,
   onAdd: PropTypes.func,
+  linkTo: PropTypes.string,
 };
 
 export default memo(Item);

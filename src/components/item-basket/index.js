@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import './style.css';
 import { Link } from "react-router-dom";
 
-function ItemBasket({item , onRemove= () => {} , onLinkClick = () => {}}) {
+function ItemBasket({item , onRemove= () => {} , onLinkClick = () => {}, linkTo}) {
   const cn = bem('ItemBasket');
 
   const callbacks = {
@@ -16,7 +16,7 @@ function ItemBasket({item , onRemove= () => {} , onLinkClick = () => {}}) {
 
   return (
     <div className={cn()}>
-      <Link className={`${cn('title')} Link`} to={`${item._id}`} onClick={callbacks.onLinkClick}>{item.title}</Link>
+      <Link className={`${cn('title')} Link`} to={linkTo} onClick={callbacks.onLinkClick}>{item.title}</Link>
       <div className={cn('right')}>
         <div className={cn('cell')}>{numberFormat(item.price)} ₽</div>
         <div className={cn('cell')}>{numberFormat(item.amount || 0)} шт</div>
@@ -35,6 +35,7 @@ ItemBasket.propTypes = {
     price: PropTypes.number,
     amount: PropTypes.number,
   }).isRequired,
+  linkTo: PropTypes.string,
   onRemove: propTypes.func,
   onLinkClick: propTypes.func,
 };

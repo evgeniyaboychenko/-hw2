@@ -1,4 +1,4 @@
-import { ITEM_COUNT_ON_PAGE } from "./constatnts";
+import { ITEM_COUNT_ON_PAGE } from "./constants";
 /**
  * Плюрализация
  * Возвращает вариант с учётом правил множественного числа под указанную локаль
