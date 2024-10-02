@@ -1,9 +1,10 @@
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 import useStore from '../../hooks/use-store';
 import useTranslate from '../../hooks/use-translate';
 import useInit from '../../hooks/use-init';
 import Navigation from '../../containers/navigation';
 import PageLayout from '../../components/page-layout';
+import PageTop from '../../components/page-top';
 import Head from '../../components/head';
 import CatalogFilter from '../../containers/catalog-filter';
 import CatalogList from '../../containers/catalog-list';
@@ -14,6 +15,10 @@ import LocaleSelect from '../../containers/locale-select';
  */
 function Main() {
   const store = useStore();
+
+  useEffect(() => {
+    store.actions.filter.loadCategories();
+  }, []);
 
   useInit(
     () => {
@@ -27,6 +32,7 @@ function Main() {
 
   return (
     <PageLayout>
+      <PageTop></PageTop>
       <Head title={t('title')}>
         <LocaleSelect />
       </Head>
