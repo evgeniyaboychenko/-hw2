@@ -44,7 +44,7 @@ function Auth() {
   //   email: select.userData.email,
   // }
 
-  console.log(select);
+
   const { t } = useTranslate();
 
   const callbacks = {
@@ -75,18 +75,18 @@ function Auth() {
                   <Input
                     type='text'
                     label='Логин'
-                    // value={select.login}
+                    value={select.login}
                     name = 'login'
                     onChange={callbacks.onInput}
                   />
                   <Input
                     type='password'
                     label='Пароль'
-                    // value={select.password}
+                    value={select.password}
                     name = 'password'
                     onChange={callbacks.onInput}
                   />
-                  <span className='Form-Error'>текст ошибки {select.error}</span>
+                  <span className='Form-Error'>{select.error}</span>
                   <button type='submit'>Войти</button>
                   </div>
               </Spinner>

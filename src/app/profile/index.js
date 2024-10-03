@@ -12,6 +12,7 @@ import Spinner from '../../components/spinner';
 import ArticleCard from '../../components/article-card';
 import LocaleSelect from '../../containers/locale-select';
 import UserCard from '../../components/user-card';
+import { Navigate } from "react-router-dom";
 
 /**
  * Страница пользователя
@@ -45,6 +46,9 @@ function Profile() {
 
   return (
     <PageLayout>
+       {select.isAuth ==="NO_AUTH" && (
+      <Navigate to="/login" replace={true} />
+      )}
         <PageTop onExit={callbacks.userExit} isAuth={select.isAuth} userName={select.userData.profile?.name}></PageTop>
         <Head title={t('title')}>
           <LocaleSelect />

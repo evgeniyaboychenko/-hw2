@@ -10,7 +10,7 @@ const InputTypes =  {
 class AuthState extends StoreModule {
   initState() {
     return {
-      isAuth: 'UNKNOWN',
+      isAuth: 'NO_AUTH',
       user: {
         login :'',
         password: ''},
@@ -22,19 +22,87 @@ class AuthState extends StoreModule {
     };
   }
 
+
+  async loadTokenAuth() {
+    const token = localStorage.getItem('token')
+    if(token) {
+      this.setState({
+        ...this.getState(),
+        error: '',
+        userData: {},
+        waiting: true,
+      });
+      try {
+        const response = await fetch(`/api/v1/users/self?fields=*`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Token': token,
+            },
+          }
+        );
+
+        if (response.ok) {
+          const json = await response.json();
+          console.log(json.result);
+          // Данные авторизациии
+          this.setState(
+                {
+                  ...this.getState(),
+                  userData: json.result,
+                  isAuth: 'AUTH',
+                  waiting: false,
+                  error: ''
+                },
+                'Данные пользователя успешно загружены',
+              );
+            return;
+          }
+        if (response.status === 400) {
+          console.log(response);
+          const {error}  = await response.json();
+          const message = error.message;
+          this.setState({
+            ...this.getState(),
+            isAuth: 'NO_AUTH',
+            error: error.message,
+            waiting: false,
+          },
+            'Данные не загружены',);
+        } else {
+            this.setState({
+            ...this.getState(),
+            isAuth: 'NO_AUTH',
+            error: "Что-то пошло не так",
+            waiting: false,
+          })
+        };
+      } catch (error) {
+        // Ошибка при загрузке
+        // @todo В стейт можно положить информацию об ошибке
+        this.setState({
+          ...this.getState(),
+          isAuth: 'NO_AUTH',
+          error: error.message,
+          waiting: false,
+        });
+      }
+
+
+    }
+  }
+
+
+
   setParams(value,name) {
     const user = this.getState().user;
     user[name] = value;
-    // console.log(user);
     this.setState(
       {
         ...this.getState(),
         user: {...user}
-        // user: {...this.getState().user, ...value}
       }
     );
-
-    // console.log(this.getState().user)
   }
 
 
@@ -58,7 +126,7 @@ class AuthState extends StoreModule {
 
       if (response.ok) {
       const json = await response.json();
-
+      localStorage.removeItem('token');
       this.setState(
             {
               ...this.getState(),
@@ -138,24 +206,25 @@ class AuthState extends StoreModule {
       );
 
       if (response.ok) {
-      const json = await response.json();
-      console.log(json.result.user);
-      // Данные авторизациии
-      this.setState(
-            {
-              ...this.getState(),
-              userData: json.result.user,
-              isAuth: 'AUTH',
-              // user,
-              // login,
-              // password,
-              waiting: false,
-              error: ''
-            },
-            'Авторизация выполнена успешно',
-          );
-        return;
-      }
+        const json = await response.json();
+        console.log(json.result.token)
+        localStorage.setItem('token', json.result.token)
+        // Данные авторизациии
+        this.setState(
+              {
+                ...this.getState(),
+                userData: json.result.user,
+                isAuth: 'AUTH',
+                // user,
+                // login,
+                // password,
+                waiting: false,
+                error: ''
+              },
+              'Авторизация выполнена успешно',
+            );
+          return;
+        }
       if (response.status === 400) {
         console.log(response);
         const {error}  = await response.json();

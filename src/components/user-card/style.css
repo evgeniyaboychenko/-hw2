@@ -30,3 +30,28 @@
 .UserCard-title {
   margin: 20px 0;
 }
+
+.Form {
+  padding: 20px 20px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap : 20px;
+}
+
+.Form-Wrapper {
+  display: flex;
+  flex-direction: column;
+  gap : 20px;
+  align-items: flex-start;
+}
+
+.Form-Error {
+   color: rgba(255, 0, 0, 1);
+}
+
+.Form input{
+  display: block;
+}
+
+
+
