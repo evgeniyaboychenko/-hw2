@@ -1,0 +1,58 @@
+import { memo, useCallback, useMemo } from 'react';
+import { useParams } from 'react-router-dom';
+import useStore from '../../hooks/use-store';
+import useSelector from '../../hooks/use-selector';
+import useTranslate from '../../hooks/use-translate';
+import useInit from '../../hooks/use-init';
+import PageLayout from '../../components/page-layout';
+import PageTop from '../../components/page-top';
+import Head from '../../components/head';
+import Navigation from '../../containers/navigation';
+import Spinner from '../../components/spinner';
+import ArticleCard from '../../components/article-card';
+import LocaleSelect from '../../containers/locale-select';
+import UserCard from '../../components/user-card';
+
+/**
+ * Страница пользователя
+ */
+function Profile() {
+  const store = useStore();
+
+  // // Параметры из пути /articles/:id
+  // const params = useParams();
+
+  // useInit(() => {
+  //   store.actions.article.load(params.id);
+  // }, [params.id]);
+
+  const select = useSelector(state => ({
+    isAuth: state.auth.isAuth,
+    userData: state.auth.userData,
+  }));
+
+  const { t } = useTranslate();
+
+  const userData = {
+    name: select.userData.profile?.name,
+    phone: select.userData.profile?.phone,
+    email: select.userData.email,
+  }
+
+  const callbacks = {
+    userExit: useCallback(() => store.actions.auth.userExit(), [store]),
+  };
+
+  return (
+    <PageLayout>
+        <PageTop onExit={callbacks.userExit} isAuth={select.isAuth} userName={select.userData.profile?.name}></PageTop>
+        <Head title={t('title')}>
+          <LocaleSelect />
+        </Head>
+        <Navigation />
+        <UserCard userData = {userData} ></UserCard>
+      </PageLayout>
+  );
+}
+
+export default memo(Profile);

@@ -5,7 +5,7 @@ import Main from './main';
 import Basket from './basket';
 import Article from './article';
 import Auth from './auth';
-
+import Profile from './profile';
 /**
  * Приложение
  * Маршрутизация по страницам и модалкам
@@ -19,6 +19,14 @@ function App() {
         <Route path={''} element={<Main />} />
         <Route path={'/articles/:id'} element={<Article />} />
         <Route path={'/login'} element={<Auth />} />
+        <Route
+            path="/profile"
+            element={<Profile />}
+            //   <RequireAuth>
+            //     <Profile />
+            //   </RequireAuth>
+            // }
+          />
       </Routes>
 
       {activeModal === 'basket' && <Basket />}

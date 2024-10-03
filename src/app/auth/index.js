@@ -12,6 +12,10 @@ import Spinner from '../../components/spinner';
 import ArticleCard from '../../components/article-card';
 import LocaleSelect from '../../containers/locale-select';
 import Input from '../../components/input';
+import UserCard from '../../components/user-card';
+import { Navigate } from "react-router-dom";
+
+
 /**
  * Страница товара с первичной загрузкой товара по id из url адреса
  */
@@ -25,55 +29,69 @@ function Auth() {
   //   store.actions.article.load(params.id);
   // }, [params.id]);
 
-  // const select = useSelector(state => ({
-  //   article: state.article.data,
-  //   waiting: state.article.waiting,
-  // }));
+  const select = useSelector(state => ({
+    isAuth: state.auth.isAuth,
+    login: state.auth.user.login,
+    password: state.auth.user.password,
+    waiting: state.auth.waiting,
+    error:  state.auth.error,
+    userData: state.auth.userData,
+  }));
 
+  // const userData = {
+  //   name: select.userData.profile?.name,
+  //   phone: select.userData.profile?.phone,
+  //   email: select.userData.email,
+  // }
+
+  console.log(select);
   const { t } = useTranslate();
 
-  // const callbacks = {
-  //   // Добавление в корзину
-  //   addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
-  // };
+  const callbacks = {
+    // Отправка формы
+    submitForm: useCallback((login, password) => store.actions.auth.submitForm(login, password), [store]),
+    // на ввод инпута
+    onInput: useCallback((value,name) => store.actions.auth.setParams(value, name), [store]),
+    // выход пользователя
+    userExit: useCallback(() => store.actions.auth.userExit(), [store]),
+  };
 
   return (
-    // <PageLayout>
-    //   <PageTop></PageTop>
-    //   <Head title={select.article.title}>
-    //     <LocaleSelect />
-    //   </Head>
-    //   {/* <Navigation />
-    //   <Spinner active={select.waiting}>
-    //     <ArticleCard article={select.article} onAdd={callbacks.addToBasket} t={t} />
-    //   </Spinner> */}
-    // </PageLayout>
-
         <PageLayout>
-          <PageTop></PageTop>
+          <PageTop onExit={callbacks.userExit} isAuth={select.isAuth} userName={select.userData.profile?.name}></PageTop>
           <Head title={t('title')}>
             <LocaleSelect />
           </Head>
           <Navigation />
-          <h1>Вход</h1>
-          <form>
-            <Input
-              // value={select.query}
-              // onChange={callbacks.onSearch}
-              // placeholder={'Поиск'}
-              type='text'
-              label='Логин'
-            />
-            <Input
-              // value='eewe'
-              // onChange={callbacks.onSearch}
-              // placeholder={'Поиск'}
-              type='text'
-              label='Пароль'
-            />
-            <span>текст ошибки</span>
-            <button type='submit'>Войти</button>
-          </form>
+
+          {select.isAuth ==="AUTH" && (
+            <Navigate to="/profile" replace={true} />
+          )}
+          <div className='Form'>
+            <h1 className='Form-Title'>Вход</h1>
+            <form onSubmit={(evt)=>{evt.preventDefault(); callbacks.submitForm(select.login, select.password)}}>
+              <Spinner active={select.waiting}>
+                <div className='Form-Wrapper'>
+                  <Input
+                    type='text'
+                    label='Логин'
+                    // value={select.login}
+                    name = 'login'
+                    onChange={callbacks.onInput}
+                  />
+                  <Input
+                    type='password'
+                    label='Пароль'
+                    // value={select.password}
+                    name = 'password'
+                    onChange={callbacks.onInput}
+                  />
+                  <span className='Form-Error'>текст ошибки {select.error}</span>
+                  <button type='submit'>Войти</button>
+                  </div>
+              </Spinner>
+            </form>
+          </div>
         </PageLayout>
   );
 }

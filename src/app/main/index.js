@@ -1,4 +1,5 @@
-import { memo, useEffect } from 'react';
+import { memo, useCallback, useEffect } from 'react';
+import useSelector from '../../hooks/use-selector';
 import useStore from '../../hooks/use-store';
 import useTranslate from '../../hooks/use-translate';
 import useInit from '../../hooks/use-init';
@@ -16,6 +17,11 @@ import LocaleSelect from '../../containers/locale-select';
 function Main() {
   const store = useStore();
 
+  const select = useSelector(state => ({
+    isAuth: state.auth.isAuth,
+    userData: state.auth.userData,
+  }));
+
   useEffect(() => {
     store.actions.filter.loadCategories();
   }, []);
@@ -28,11 +34,15 @@ function Main() {
     true,
   );
 
+  const callbacks = {
+    userExit: useCallback(() => store.actions.auth.userExit(), [store]),
+  };
+
   const { t } = useTranslate();
 
   return (
     <PageLayout>
-      <PageTop></PageTop>
+      <PageTop onExit={callbacks.userExit} isAuth={select.isAuth} userName={select.userData.profile?.name}></PageTop>
       <Head title={t('title')}>
         <LocaleSelect />
       </Head>

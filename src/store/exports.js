@@ -4,3 +4,4 @@ export { default as modals } from './modals';
 export { default as article } from './article';
 export { default as locale } from './locale';
 export { default as filter } from './filter';
+export { default as auth } from './auth';
