@@ -26,13 +26,6 @@ function Profile() {
     store.actions.user.loadTokenAuth(token);
   }, [token]);
 
-  // // Параметры из пути /articles/:id
-  // const params = useParams();
-
-  // useInit(() => {
-  //   store.actions.article.load(params.id);
-  // }, [params.id]);
-
   const select = useSelector(state => ({
     isAuth: state.auth.isAuth,
     userName: state.auth.userName,
@@ -54,20 +47,13 @@ function Profile() {
 
   return (
     <PageLayout>
-      {/* {select.isAuth ==="NO_AUTH" ? (
-        <Navigate to="/login" replace={true} />
-      ) : (
-        <> */}
-          <PageTop onExit={callbacks.userExit} isAuth={select.isAuth} userName={select.userName}></PageTop>
-          <Head title={t('title')}>
-            <LocaleSelect />
-          </Head>
-          <Navigation />
-          <UserCard userData = {userData} ></UserCard>
-        {/* </>
-      )
-    } */}
-      </PageLayout>
+      <PageTop onExit={callbacks.userExit} isAuth={select.isAuth} userName={select.userName}></PageTop>
+      <Head title={t('title')}>
+        <LocaleSelect />
+      </Head>
+      <Navigation />
+      <UserCard userData = {userData} ></UserCard>
+    </PageLayout>
   );
 }
 
