@@ -41,15 +41,28 @@ const setLevel = (array, lev) => {
   })
 }
 
+const getListWithoutParents = (categoryList) => {
+  return categoryList.map(item => {
+    if (item.parent!==null && categoryList.find((elem) => (elem._id === item.parent._id))) {
+      return {...item}
+    } else return {...item, parent:null}
+  }
+  )
+};
+
 export function sortCategoryList (categoryList) {
+  const newCategoryList = getListWithoutParents(categoryList);
+
   let resultArray = [];
-  const parents = categoryList.filter((item) => item.parent === null);
+  const parents = newCategoryList.filter((item, index) => {
+    if(item.parent === null ) return true;
+  });
   const newParents = setLevel(parents);
   resultArray =  resultArray.concat(newParents);
 
   const defineNesting = (parentsAll) => {
     parentsAll.forEach((element,) => {
-    const childrens = setLevel(categoryList.filter((item) => {
+    const childrens = setLevel(newCategoryList.filter((item) => {
       if(item.parent && item.parent._id===element._id)
         return true
     }), element.level );
