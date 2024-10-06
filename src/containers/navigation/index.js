@@ -24,7 +24,10 @@ function Navigation() {
     // Обработка перехода на главную
     onNavigate: useCallback(
       item => {
-        if (item.key === 1) store.actions.catalog.resetParams();
+        if (item.key === 1) {
+          store.actions.catalog.resetParams();
+          store.actions.auth.resetState();
+        }
       },
       [store],
     ),

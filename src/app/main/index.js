@@ -19,7 +19,7 @@ function Main() {
 
   const select = useSelector(state => ({
     isAuth: state.auth.isAuth,
-    userData: state.auth.userData,
+    userName: state.auth.userName,
   }));
 
   useEffect(() => {
@@ -42,7 +42,7 @@ function Main() {
 
   return (
     <PageLayout>
-      <PageTop onExit={callbacks.userExit} isAuth={select.isAuth} userName={select.userData.profile?.name}></PageTop>
+      <PageTop onExit={callbacks.userExit} isAuth={select.isAuth} userName={select.userName}></PageTop>
       <Head title={t('title')}>
         <LocaleSelect />
       </Head>

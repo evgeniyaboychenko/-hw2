@@ -5,6 +5,7 @@ import useSelector from '../../hooks/use-selector';
 import useTranslate from '../../hooks/use-translate';
 import useInit from '../../hooks/use-init';
 import PageLayout from '../../components/page-layout';
+import PageTop from '../../components/page-top';
 import Head from '../../components/head';
 import Navigation from '../../containers/navigation';
 import Spinner from '../../components/spinner';
@@ -27,17 +28,23 @@ function Article() {
   const select = useSelector(state => ({
     article: state.article.data,
     waiting: state.article.waiting,
+    isAuth: state.auth.isAuth,
+    // userData: state.auth.userData,
+    userName: state.auth.userName,
   }));
+
 
   const { t } = useTranslate();
 
   const callbacks = {
     // Добавление в корзину
     addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
+    userExit: useCallback(() => store.actions.auth.userExit(), [store]),
   };
 
   return (
     <PageLayout>
+      <PageTop onExit={callbacks.userExit} isAuth={select.isAuth} userName={select.userName}></PageTop>
       <Head title={select.article.title}>
         <LocaleSelect />
       </Head>

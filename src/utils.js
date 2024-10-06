@@ -76,7 +76,7 @@ export function sortCategoryList (categoryList) {
 
   const resultList = listFiltered.map(item=> ({
     value: item._id,
-    title: "-".repeat(item.level.length-1) + item.title
+    title: "- ".repeat(item.level.length-1) + item.title
   }));
   resultList.unshift({ value: '', title: 'Все' });
   return resultList

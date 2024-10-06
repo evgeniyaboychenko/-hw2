@@ -8,7 +8,7 @@ function UserCard({userData}) {
   const cn = bem('UserCard');
   return (
     <div className={cn()}>
-      <h1 className={cn('title')}>Профиль</h1>
+      <h2 className={cn('title')}>Профиль</h2>
       <div className={cn('prop')}>
         <div className={cn('label')}>Имя:</div>
         <div className={cn('value')}>{userData.name}</div>

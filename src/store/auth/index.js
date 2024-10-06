@@ -1,11 +1,7 @@
 import StoreModule from '../module';
-const InputTypes =  {
-	'password' :'password',
-	'login' :'login',
-}
 
 /**
- * Детальная информация о товаре для страницы товара
+ * Информауия об авторизации пользователя
  */
 class AuthState extends StoreModule {
   initState() {
@@ -13,23 +9,34 @@ class AuthState extends StoreModule {
       isAuth: 'NO_AUTH',
       user: {
         login :'',
-        password: ''},
-      login: '',
-      password: '',
-      userData: {},
+        password: ''
+      },
+      userName: '',
+      // userData: {},
       waiting: false, // признак ожидания загрузки
       error: '',
     };
   }
 
+  resetState() {
+    this.setState({
+      ...this.getState(),
+      error: '',
+      user: {
+        login :'',
+        password: ''
+      },
+    });
+  }
 
-  async loadTokenAuth() {
-    const token = localStorage.getItem('token')
+  async loadUserName() {
+    const token = localStorage.getItem('token');
     if(token) {
       this.setState({
         ...this.getState(),
         error: '',
-        userData: {},
+        userName: '',
+        isAuth: 'AUTH',
         waiting: true,
       });
       try {
@@ -44,34 +51,22 @@ class AuthState extends StoreModule {
 
         if (response.ok) {
           const json = await response.json();
-          console.log(json.result);
+          // console.log(json.result);
           // Данные авторизациии
           this.setState(
-                {
-                  ...this.getState(),
-                  userData: json.result,
-                  isAuth: 'AUTH',
-                  waiting: false,
-                  error: ''
-                },
-                'Данные пользователя успешно загружены',
+            {
+              ...this.getState(),
+              userName: json.result.profile.name,
+              isAuth: 'AUTH',
+              waiting: false,
+              error: ''
+            },
+                'Name пользователя успешно загружен',
               );
-            return;
-          }
-        if (response.status === 400) {
-          console.log(response);
-          const {error}  = await response.json();
-          const message = error.message;
-          this.setState({
-            ...this.getState(),
-            isAuth: 'NO_AUTH',
-            error: error.message,
-            waiting: false,
-          },
-            'Данные не загружены',);
-        } else {
+          } else {
             this.setState({
             ...this.getState(),
+            userName: '',
             isAuth: 'NO_AUTH',
             error: "Что-то пошло не так",
             waiting: false,
@@ -82,16 +77,14 @@ class AuthState extends StoreModule {
         // @todo В стейт можно положить информацию об ошибке
         this.setState({
           ...this.getState(),
+          userName: '',
           isAuth: 'NO_AUTH',
           error: error.message,
           waiting: false,
         });
       }
-
-
     }
   }
-
 
 
   setParams(value,name) {
@@ -113,7 +106,8 @@ class AuthState extends StoreModule {
       waiting: true,
     });
 
-   const token = (document.cookie.match('(^|; )' + encodeURIComponent('token') + '=([^;]+)') || []).pop() || null;
+    const token = (document.cookie.match('(^|; )' + encodeURIComponent('token') + '=([^;]+)') || []).pop() || null;
+
     try {
       const response = await fetch(`/api/v1/users/sign`, {
           method: 'DELETE',
@@ -130,11 +124,13 @@ class AuthState extends StoreModule {
       this.setState(
             {
               ...this.getState(),
-              userData: {},
+              userName: '',
+              // userData: {},
               isAuth: 'NO_AUTH',
               user: {
                 login :'',
-                password: ''},
+                password: ''
+              },
               waiting: false,
               error: ''
             },
@@ -176,16 +172,18 @@ class AuthState extends StoreModule {
    * @param login, password {String}
    * @return {Promise<void>}
    */
-  async submitForm(login, password) {
+  async submitForm(login, password, navigate) {
     this.setState({
       ...this.getState(),
       user: {
         login :login,
-        password: password},
+        password: password
+      },
       // login,
       // password,
       error: '',
-      userData: {},
+      userName: '',
+      // userData: {},
       waiting: true,
     });
 
@@ -193,7 +191,6 @@ class AuthState extends StoreModule {
       "login": login,
       "password": password,
     }
-
 
     try {
       const response = await fetch(`/api/v1/users/sign`, {
@@ -207,13 +204,14 @@ class AuthState extends StoreModule {
 
       if (response.ok) {
         const json = await response.json();
-        console.log(json.result.token)
+        // console.log(json.result.token)
         localStorage.setItem('token', json.result.token)
         // Данные авторизациии
         this.setState(
               {
                 ...this.getState(),
-                userData: json.result.user,
+                userName: json.result.user.profile.name,
+                // userData: json.result.user,
                 isAuth: 'AUTH',
                 // user,
                 // login,
@@ -223,6 +221,7 @@ class AuthState extends StoreModule {
               },
               'Авторизация выполнена успешно',
             );
+            navigate();
           return;
         }
       if (response.status === 400) {
@@ -232,7 +231,7 @@ class AuthState extends StoreModule {
         this.setState({
           ...this.getState(),
           isAuth: 'NO_AUTH',
-          error: error.message,
+          error: error.data.issues[0].message,
           waiting: false,
         },
           'Авторизация не выполнена',);
@@ -249,12 +248,11 @@ class AuthState extends StoreModule {
       // @todo В стейт можно положить информацию об ошибке
       this.setState({
         ...this.getState(),
+        userName: '',
         // userData: {},
         // user: {
         //   login :login,
         //   password: password},
-        // login,
-        // password,
         isAuth: 'NO_AUTH',
         error: error.message,
         waiting: false,

@@ -3,19 +3,22 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import './style.css';
 import SideLayout from '../side-layout'
+import { useLocation} from "react-router-dom";
 
 function PageTop({isAuth, userName,  onExit = ()=> {}, children }) {
+  const location = useLocation();
+
   return (
     <SideLayout side="end">
       {isAuth === "AUTH" ? (
         <div className="PageTop">
-        <Link to='/profile'>{userName}</Link>
+        <Link className='PageTop-UserLink' to='/profile'>{userName}</Link>
         <button className = "Button" onClick = {onExit}>Выход</button>
       </div>
       ) :
       (
         <div className="PageTop">
-          <Link to='/login' className = "Button">Вход</Link>
+          <Link to='/login' className = "Button" replace state={{ from: location }} >Вход</Link>
         </div>
       )
     }

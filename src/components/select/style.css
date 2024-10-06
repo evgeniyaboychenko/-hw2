@@ -1,5 +1,9 @@
 .Select {
   font-size: 16px;
   padding: 3px 2px 2px;
-  min-width: 161px;
+  min-width: 160px;
+}
+
+.Select.Locale {
+  min-width: 90px;
 }

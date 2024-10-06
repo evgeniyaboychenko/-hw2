@@ -8,7 +8,7 @@ function Select(props) {
   };
 
   return (
-    <select className="Select" value={props.value} onChange={onSelect}>
+    <select className={`Select${props.className? ` ${props.className}`:''}`} value={props.value} onChange={onSelect}>
       {props.options.map(item => (
         <option key={item.value} value={item.value}>
           {item.title}
@@ -31,6 +31,7 @@ Select.propTypes = {
 
 Select.defaultProps = {
   onChange: () => {},
+  className: '',
 };
 
 export default memo(Select);

@@ -1,4 +1,4 @@
-import { memo, useCallback, useMemo } from 'react';
+import { memo, useCallback, useMemo, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import useStore from '../../hooks/use-store';
 import useSelector from '../../hooks/use-selector';
@@ -20,6 +20,12 @@ import { Navigate } from "react-router-dom";
 function Profile() {
   const store = useStore();
 
+  const token = localStorage.getItem('token');
+
+  useEffect(() => {
+    store.actions.user.loadTokenAuth(token);
+  }, [token]);
+
   // // Параметры из пути /articles/:id
   // const params = useParams();
 
@@ -29,7 +35,9 @@ function Profile() {
 
   const select = useSelector(state => ({
     isAuth: state.auth.isAuth,
-    userData: state.auth.userData,
+    userName: state.auth.userName,
+    userData: state.user.userData,
+    waiting: state.auth.waiting,
   }));
 
   const { t } = useTranslate();
@@ -46,15 +54,19 @@ function Profile() {
 
   return (
     <PageLayout>
-       {select.isAuth ==="NO_AUTH" && (
-      <Navigate to="/login" replace={true} />
-      )}
-        <PageTop onExit={callbacks.userExit} isAuth={select.isAuth} userName={select.userData.profile?.name}></PageTop>
-        <Head title={t('title')}>
-          <LocaleSelect />
-        </Head>
-        <Navigation />
-        <UserCard userData = {userData} ></UserCard>
+      {/* {select.isAuth ==="NO_AUTH" ? (
+        <Navigate to="/login" replace={true} />
+      ) : (
+        <> */}
+          <PageTop onExit={callbacks.userExit} isAuth={select.isAuth} userName={select.userName}></PageTop>
+          <Head title={t('title')}>
+            <LocaleSelect />
+          </Head>
+          <Navigation />
+          <UserCard userData = {userData} ></UserCard>
+        {/* </>
+      )
+    } */}
       </PageLayout>
   );
 }

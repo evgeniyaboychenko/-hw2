@@ -16,14 +16,12 @@ function App() {
   const store = useStore();
 
   useEffect(() => {
-    store.actions.auth.loadTokenAuth();
+    store.actions.auth.loadUserName();
   }, []);
 
 
   const activeModal = useSelector(state => state.modals.name);
   const isAuth = useSelector(state => state.auth.isAuth);
-
-
 
   return (
     <>
@@ -38,10 +36,8 @@ function App() {
                 <Profile />
               </ProtectedRoute>
             }
-            // {<Profile />}
           />
       </Routes>
-
       {activeModal === 'basket' && <Basket />}
     </>
   );

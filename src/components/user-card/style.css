@@ -1,5 +1,5 @@
 .UserCard {
-  padding: 20px 40px;
+  padding: 10px 20px;
 }
 
 .UserCard-description {
@@ -20,7 +20,7 @@
 }
 
 .UserCard-label {
-  padding-right: 10px;
+  padding-right: 4px;
 }
 
 .UserCard-value {
@@ -28,7 +28,9 @@
 }
 
 .UserCard-title {
-  margin: 20px 0;
+  margin: 0;
+  margin-top: 25px;
+  margin-bottom: 30px ;
 }
 
 .Form {
@@ -51,6 +53,12 @@
 
 .Form input{
   display: block;
+}
+
+.Form-Title {
+  margin-top: 15px;
+  margin-bottom: 0;
+
 }
 
 

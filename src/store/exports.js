@@ -5,3 +5,4 @@ export { default as article } from './article';
 export { default as locale } from './locale';
 export { default as filter } from './filter';
 export { default as auth } from './auth';
+export { default as user } from './user';
