@@ -32,15 +32,13 @@ function Comments() {
       commentList: state.comments.commentList,
       count: state.comments.count,
       waiting: state.comments.waiting,
-      // articleId: state.article.id,
     }),
     shallowequal,
   ); // Нужно указать функцию для сравнения свойства объекта, так как хуком вернули объект
 
   useInit(() => {
-    //store.actions.article.load(params.id);
     dispatch(commentsActions.loadComments(params.id));
-  }, [params.id]);
+  }, []);
 
   // const select = useSelector(state => ({
   //   commentList: state.comments.commentList,

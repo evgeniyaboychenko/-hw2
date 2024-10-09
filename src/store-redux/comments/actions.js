@@ -16,10 +16,39 @@ export default {
         });
         // комментарии загружены успешно
         dispatch({ type: 'comments/load-success', payload: { commentList: res.data.result.items, count: res.data.result.count } });
+        // const {comment} = getState();
+        // console.log('k22dk',comment);
       } catch (e) {
         //Ошибка загрузки
         dispatch({ type: 'comments/load-error' });
       }
     };
   },
+
+  addComment: (id, comment, userName) => {
+      return async (dispatch, getState, services) => {
+        // Сброс текущих комментариев и установка признака ожидания загрузки
+        dispatch({ type: 'comment/add-start' });
+        const body=
+        {
+          "text": comment,
+          "parent": {
+            "_id": id,
+            "_type":  "article"
+          }
+        };
+
+        try {
+          const res = await services.api.request({
+            url: `/api/v1/comments`,
+            method: 'POST',
+            body: JSON.stringify(body)
+          });
+          dispatch({ type: 'comment/add-success', payload: {...res.data.result, author: {...res.data.result.author, profile: {name:userName}}}});
+        } catch (e) {
+          //Ошибка загрузки
+          dispatch({ type: 'comment/add-error' });
+        }
+      };
+  }
 };

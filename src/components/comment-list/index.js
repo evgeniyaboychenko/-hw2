@@ -16,7 +16,7 @@ function CommentList(props) {
     <div className={cn()}>
         <h2 className = {cn('title')}>Комментарии ({count})</h2>
         {comments.map(item => (
-          <Comment key={item._id} userName={item.author.profile.name}  text={item.text} date={item.dateCreate} level={item.level}/>
+          <Comment key={item._id} userName={item.author.profile.name}  userId = {item._id} text={item.text} date={item.dateCreate} level={item.level}/>
           ))
         }
       </div>

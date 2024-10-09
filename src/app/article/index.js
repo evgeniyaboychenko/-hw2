@@ -5,8 +5,8 @@ import useTranslate from '../../hooks/use-translate';
 import useInit from '../../hooks/use-init';
 import PageLayout from '../../components/page-layout';
 import Head from '../../components/head';
-import Field from '../../components/field';
-import Textarea from '../../components/textarea';
+// import Field from '../../components/field';
+// import Textarea from '../../components/textarea';
 import Navigation from '../../containers/navigation';
 import Comments from '../../containers/comments';
 import Invite from '../../containers/invite';
@@ -18,14 +18,22 @@ import TopHead from '../../containers/top-head';
 import { useDispatch, useSelector } from 'react-redux';
 import shallowequal from 'shallowequal';
 import articleActions from '../../store-redux/article/actions';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+// import useTranslate from '../../hooks/use-translate';
 
 function Article() {
   const store = useStore();
-
   const dispatch = useDispatch();
-  // Параметры из пути /articles/:id
-
   const params = useParams();
+
+  // const { t } = useTranslate();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // const select = useSelector(state => ({
+  //   user: state.session.user,
+  //   exists: state.session.exists,
+  // }));
 
   useInit(() => {
     //store.actions.article.load(params.id);
@@ -45,12 +53,15 @@ function Article() {
   const callbacks = {
     // Добавление в корзину
     addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
-
-
-    onChange: useCallback((value, name) => {
-        setData(prevData => ({ ...prevData, [name]: value }));
-      }, []),
+    // onChange: useCallback((value) => {
+    //     setData(prevData => ({ ...prevData, [name]: value }));
+    //   }, []),
+    // onSignIn: useCallback(() => {
+    //   navigate('/login', { state: { back: location.pathname } });
+    // }, [location.pathname]),
   };
+
+
 
   return (
     <PageLayout>
@@ -63,15 +74,15 @@ function Article() {
         <ArticleCard article={select.article} onAdd={callbacks.addToBasket} t={t} />
       </Spinner>
         <Comments/>
-        <form className = 'CommentForm'onSubmit={callbacks.onSubmit}>
+        {/* <form className = 'CommentForm'onSubmit={callbacks.onSubmit}>
           <Field label='Новый комментарий' typeField = 'textarea'>
             <Textarea rows="5" name="comment" value="" onChange={callbacks.onChange} placeholder="Текст"></Textarea>
           </Field>
           <Field>
             <button type="submit">Отправить</button>
           </Field>
-        </form>
-        <Invite></Invite>
+        </form> */}
+        <Invite>чтобы иметь возможность комментировать</Invite>
 
     </PageLayout>
   );
