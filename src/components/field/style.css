@@ -11,3 +11,28 @@
 .Field-error {
   color: #f00;
 }
+
+.Field-textarea {
+  display: flex;
+}
+
+.Field-textarea textarea{
+  font-family: Arial, Helvetica, sans-serif;
+  width: 100%;
+}
+
+.Field-textarea textarea::placeholder{
+  color: rgba(0, 0, 0, 1);
+  ;
+}
+
+.CommentForm {
+  padding: 20px 40px;
+}
+
+.CommentForm .Field-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}

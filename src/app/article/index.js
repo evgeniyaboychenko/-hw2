@@ -5,7 +5,12 @@ import useTranslate from '../../hooks/use-translate';
 import useInit from '../../hooks/use-init';
 import PageLayout from '../../components/page-layout';
 import Head from '../../components/head';
+import Field from '../../components/field';
+import Textarea from '../../components/textarea';
 import Navigation from '../../containers/navigation';
+import Comments from '../../containers/comments';
+import Invite from '../../containers/invite';
+import SideLayout from '../../components/side-layout';
 import Spinner from '../../components/spinner';
 import ArticleCard from '../../components/article-card';
 import LocaleSelect from '../../containers/locale-select';
@@ -40,6 +45,11 @@ function Article() {
   const callbacks = {
     // Добавление в корзину
     addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
+
+
+    onChange: useCallback((value, name) => {
+        setData(prevData => ({ ...prevData, [name]: value }));
+      }, []),
   };
 
   return (
@@ -52,6 +62,17 @@ function Article() {
       <Spinner active={select.waiting}>
         <ArticleCard article={select.article} onAdd={callbacks.addToBasket} t={t} />
       </Spinner>
+        <Comments/>
+        <form className = 'CommentForm'onSubmit={callbacks.onSubmit}>
+          <Field label='Новый комментарий' typeField = 'textarea'>
+            <Textarea rows="5" name="comment" value="" onChange={callbacks.onChange} placeholder="Текст"></Textarea>
+          </Field>
+          <Field>
+            <button type="submit">Отправить</button>
+          </Field>
+        </form>
+        <Invite></Invite>
+
     </PageLayout>
   );
 }

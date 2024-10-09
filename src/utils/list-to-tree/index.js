@@ -4,10 +4,20 @@
  * @param [key] {String} Свойство с первичным ключом
  * @returns {Array} Корневые узлы
  */
+const getListWithoutParents = (list) => {
+  return list.map(item => {
+    if (item.parent!==null && list.find((elem) => (elem._id === item.parent._id))) {
+      return {...item}
+    } else return {...item, parent:null}
+  }
+  )
+};
+
 export default function listToTree(list, key = '_id') {
   let trees = {};
   let roots = {};
-  for (const item of list) {
+  const listNew= getListWithoutParents(list);
+  for (const item of listNew) {
     // Добавление элемента в индекс узлов и создание свойства children
     if (!trees[item[key]]) {
       trees[item[key]] = item;

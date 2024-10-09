@@ -66,10 +66,10 @@ function Login() {
       <SideLayout padding="medium">
         <form onSubmit={callbacks.onSubmit}>
           <h2>{t('auth.title')}</h2>
-          <Field label={t('auth.login')} error={select.errors?.login}>
+          <Field label={t('auth.login')} error={select.errors?.login} typeField = 'input'>
             <Input name="login" value={data.login} onChange={callbacks.onChange} />
           </Field>
-          <Field label={t('auth.password')} error={select.errors?.password}>
+          <Field label={t('auth.password')} error={select.errors?.password} typeField = 'input'>
             <Input
               name="password"
               type="password"
