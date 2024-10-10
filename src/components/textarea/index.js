@@ -6,32 +6,29 @@ import debounce from 'lodash.debounce';
 import './style.css';
 
 function Textarea(props) {
-  const { onChange = () => {}, type = 'text', theme = '' } = props;
+  const { onChange = () => {}, type = 'text', theme = '', value, placeholder, rows } = props;
   // Внутренний стейт для быстрого отображения ввода
-  const [value, setValue] = useState(props.value);
+  const [text, setValue] = useState(value);
 
-  const onChangeDebounce = useCallback(
-    debounce(value => onChange(value, props.name), 600),
-    [onChange, props.name],
-  );
 
   // Обработчик изменений в поле
   const onChangeHandler = event => {
     setValue(event.target.value);
-    onChangeDebounce(event.target.value);
+    onChange(event.target.value);
   };
 
+
   // Обновление стейта, если передан новый value
-  useLayoutEffect(() => setValue(props.value), [props.value]);
+  useLayoutEffect(() => setValue(value), [value]);
 
   const cn = bem('Textarea');
   return (
     <textarea
       className={cn({ theme: theme })}
-      value={value}
-      placeholder={props.placeholder}
+      value={text}
+      placeholder={placeholder}
       onChange={onChangeHandler}
-      rows={props.rows}
+      rows={rows}
     >
     </textarea>
   );
@@ -39,8 +36,8 @@ function Textarea(props) {
 
 Textarea.propTypes = {
   value: PropTypes.string,
-  name: PropTypes.string,
   placeholder: PropTypes.string,
+  rows: PropTypes.string,
   onChange: PropTypes.func,
   theme: PropTypes.string,
   minLength:  PropTypes.string,

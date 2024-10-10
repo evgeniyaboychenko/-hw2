@@ -1,9 +1,7 @@
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { cn as bem } from '@bem-react/classname';
 import propTypes from 'prop-types';
-import numberFormat from '../../utils/number-format';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import moment from 'moment';
 import './style.css';
 
@@ -15,16 +13,18 @@ const getTime = (date) => {
 };
 
 function Comment(props) {
-  // const { onRemove = () => {}, labelCurr = '₽', labelUnit = 'шт', labelDelete = 'Удалить' } = props;
-  const { onAnswer = () => {}, userName, userId, date,  text, level } = props;
+  const { userName, userId, date,  text, onAnswer=()=>{}} = props;
+
   moment.locale('ru');
   const cn = bem('Comment');
+
   const callbacks = {
-    onAnswer: e => onAnswer(userId),
+    onAnswer: () => onAnswer(userId),
   };
 
   return (
-    <div className={cn()} style={{paddingLeft: 30*level + 'px'}}>
+    <>
+    <div className={cn()} >
       <div className={cn('top')}>
         <div className={cn('user')}>
           {userName}
@@ -36,22 +36,14 @@ function Comment(props) {
         </p>
           <button className={cn('answer')} onClick={callbacks.onAnswer}>Ответить</button>
     </div>
+    </>
   );
 }
 
 Comment.propTypes = {
-  // item: PropTypes.shape({
-  //   _id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  //   title: PropTypes.string,
-  //   price: PropTypes.number,
-  //   amount: PropTypes.number,
-  // }).isRequired,
-  // link: PropTypes.string,
-  // onLink: PropTypes.func,
   userName: propTypes.string,
-  userId: propTypes.string,
+  userId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   date: propTypes.string,
-  time:  propTypes.string,
   text:  propTypes.string,
   onAnswer: PropTypes.func,
 };

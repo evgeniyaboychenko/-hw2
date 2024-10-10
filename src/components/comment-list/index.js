@@ -2,36 +2,43 @@ import { memo, useCallback } from 'react';
 import { cn as bem } from '@bem-react/classname';
 import propTypes from 'prop-types';
 import Comment from '../comment';
-import numberFormat from '../../utils/number-format';
+import CommentForm from '../../containers/comment-form';
 import PropTypes from 'prop-types';
 import './style.css';
-// import treeToList from '../../utils/tree-to-list';
-// import listToTree from '../../utils/list-to-tree';
+
 
 function CommentList(props) {
-  const { count = 0, comments  } = props;
+  const { comments, onAnswer=()=>{} ,activeId} = props;
 
-  const cn = bem('Comments');
+  const cn = bem('CommentList');
+
   return (
     <div className={cn()}>
-        <h2 className = {cn('title')}>Комментарии ({count})</h2>
+        <>
         {comments.map(item => (
-          <Comment key={item._id} userName={item.author.profile.name}  userId = {item._id} text={item.text} date={item.dateCreate} level={item.level}/>
-          ))
+
+            <div key={item._id}>
+            <Comment  userId = {item._id} text={item.text} date={item.dateCreate} onAnswer={onAnswer} userName={item.author.profile.name}  />
+            {!!item.children.length && (
+            <CommentList {...props} comments={item.children}/>
+          )}
+          {activeId===item._id && <CommentForm label={'Новый ответ'} answer={true}><span>, чтобы иметь возможность ответить. </span></CommentForm>}
+          </div>
+        ))
         }
+        </>
       </div>
   );
 }
 
 CommentList.propTypes = {
-  count: propTypes.number,
+  activeId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   comments: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       text: propTypes.string,
       date: propTypes.string,
-      level: PropTypes.number,
-      // userName: propTypes.string,
+      userName: PropTypes.shape({author: PropTypes.shape({profile: PropTypes.shape({name: propTypes.string,})}),}),
     }),
   ).isRequired,
   onAnswer: PropTypes.func,

@@ -1,0 +1,32 @@
+.Invite {
+  margin-bottom: 30px;
+
+}
+
+.Invite-In{
+  color: #0087E9;
+  text-decoration: underline;
+  font-size: 16px;
+
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration-skip-ink: none;
+  text-underline-offset: 3px;
+
+}
+
+.Invite-Cancel{
+  color: #666666;
+
+  text-decoration: underline;
+  font-size: 16px;
+
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration-skip-ink: none;
+  text-underline-offset: 3px;
+}
