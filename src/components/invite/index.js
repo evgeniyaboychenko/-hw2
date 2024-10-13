@@ -3,11 +3,11 @@ import propTypes from 'prop-types';
 import PropTypes from 'prop-types';
 import './style.css';
 
-function Invite({answer, onCancel=()=> {} ,onSignIn=()=>{}, children }) {
+function Invite({answer, onCancel=()=> {} ,onSignIn=()=>{}, children, myRef }) {
 
   return (
     <div className='Invite'>
-      <button className='Invite-In' onClick={onSignIn}>Войдите</button>
+      <button className='Invite-In' ref={myRef} onClick={onSignIn}>Войдите</button>
       {children}
       {answer && <button className='Invite-Cancel' onClick={onCancel}>Отмена</button>}
     </div>

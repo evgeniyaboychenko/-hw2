@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from 'react';
+import { memo, useCallback, useState, useRef } from 'react';
 import { cn as bem } from '@bem-react/classname';
 import propTypes from 'prop-types';
 import PropTypes from 'prop-types';
@@ -22,8 +22,10 @@ function Comment(props) {
     'color-grey': (userName === authUser),
   });
 
+
   const callbacks = {
-    onAnswer: () => onAnswer(userId),
+    onAnswer: () => {
+      onAnswer(userId)},
   };
 
   return (

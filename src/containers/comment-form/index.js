@@ -1,6 +1,7 @@
-import { memo, useCallback, useState } from 'react';
+import { memo, useCallback, useState, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import useInit from '../../hooks/use-init';
 import useTranslate from '../../hooks/use-translate';
 import useSelector from '../../hooks/use-selector';
 import useStore from '../../hooks/use-store';
@@ -27,6 +28,12 @@ function CommentForm({answer=false, label='Новый комментарий',  
     userId: state.session.user._id,
   }));
 
+  const myRef=useRef(null);
+
+  useInit(() => {
+    if(myRef.current && answer) myRef.current.scrollIntoView({ behavior: 'smooth', block: 'end'});
+  }, []);
+
   const selectRedux = useSelectorRedux(
     state => ({
       activeId: state.comments.activeId,
@@ -35,6 +42,8 @@ function CommentForm({answer=false, label='Новый комментарий',  
   );
 
   const [value, setData] = useState('');
+
+
 
   const callbacks = {
     // Переход к авторизации
@@ -64,12 +73,12 @@ function CommentForm({answer=false, label='Новый комментарий',  
   return (
     <>
       {select.exists ? (
-        <form className = 'CommentForm' onSubmit={callbacks.onSubmit}>
+        <form className = 'CommentForm' onSubmit={callbacks.onSubmit} ref={myRef} id='commentForm'>
         <Field label={label} typeField = 'textarea'>
           <Textarea rows="4" value={value} onChange={callbacks.onChange}></Textarea>
         </Field>
         <SideLayout>
-            <button type="submit">Отправить</button>
+            <button className='CommentForm-Button' disabled={!value.trim()} type="submit">Отправить</button>
             <>
               {answer && <button type="button" onClick={callbacks.onCancel}>Отмена</button>}
             </>
@@ -77,7 +86,7 @@ function CommentForm({answer=false, label='Новый комментарий',  
       </form>
       ) :
       (
-        <Invite answer={answer} onSignIn={callbacks.onSignIn} onCancel={callbacks.onCancel} children={children}></Invite>
+        <Invite answer={answer} myRef={myRef} onSignIn={callbacks.onSignIn} onCancel={callbacks.onCancel} children={children}></Invite>
       )}
       </>
   );

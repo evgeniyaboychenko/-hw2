@@ -30,6 +30,11 @@
   margin-bottom: 30px;
 }
 
+
+.CommentForm-Button:disabled {
+  opacity: 0.8;
+}
+
 .CommentForm .Field-label {
   display: block;
   font-size: 12px;
