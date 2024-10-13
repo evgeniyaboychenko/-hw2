@@ -8,19 +8,21 @@ import './style.css';
 
 
 function CommentList(props) {
-  const { comments, onAnswer=()=>{} ,activeId} = props;
+  const { comments, onAnswer=()=>{} ,activeId, authUser, level=0} = props;
 
   const cn = bem('CommentList');
+  const className = cn({
+    'ml-0': (level > 10),
+  });
 
   return (
-    <div className={cn()}>
+    <div className={className}>
         <>
         {comments.map(item => (
-
             <div key={item._id}>
-            <Comment  userId = {item._id} text={item.text} date={item.dateCreate} onAnswer={onAnswer} userName={item.author.profile.name}  />
+            <Comment userId = {item._id} authUser={authUser} text={item.text} date={item.dateCreate} onAnswer={onAnswer} userName={item.author.profile.name}  />
             {!!item.children.length && (
-            <CommentList {...props} comments={item.children}/>
+            <CommentList {...props} comments={item.children} level={level+1}/>
           )}
           {activeId===item._id && <CommentForm label={'Новый ответ'} answer={true}><span>, чтобы иметь возможность ответить. </span></CommentForm>}
           </div>
@@ -42,6 +44,7 @@ CommentList.propTypes = {
     }),
   ).isRequired,
   onAnswer: PropTypes.func,
+  authUser:  propTypes.string,
 };
 
 export default memo(CommentList);

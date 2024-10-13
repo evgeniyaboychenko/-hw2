@@ -13,10 +13,14 @@ const getTime = (date) => {
 };
 
 function Comment(props) {
-  const { userName, userId, date,  text, onAnswer=()=>{}} = props;
+  const { userName, userId, date,  text, onAnswer=()=>{}, authUser} = props;
 
   moment.locale('ru');
   const cn = bem('Comment');
+
+  const className = cn('user', {
+    'color-grey': (userName === authUser),
+  });
 
   const callbacks = {
     onAnswer: () => onAnswer(userId),
@@ -26,7 +30,7 @@ function Comment(props) {
     <>
     <div className={cn()} >
       <div className={cn('top')}>
-        <div className={cn('user')}>
+        <div className={className}>
           {userName}
         </div>
         <span className={cn('date')}>{getDate(date)} в {getTime(date)}</span>
@@ -41,6 +45,7 @@ function Comment(props) {
 }
 
 Comment.propTypes = {
+  authUser: propTypes.string,
   userName: propTypes.string,
   userId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   date: propTypes.string,

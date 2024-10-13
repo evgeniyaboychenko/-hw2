@@ -26,7 +26,7 @@ export default {
   addComment: (id, comment, userName, activeId) => {
     return async (dispatch, getState, services) => {
       //установка признака ожидания загрузки
-      if (!comment) return;
+      if (!comment.trim()) return;
       dispatch({ type: 'comment/add-start' });
       let body={};
       if(activeId) {

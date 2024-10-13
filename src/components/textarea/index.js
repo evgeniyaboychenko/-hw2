@@ -6,7 +6,7 @@ import debounce from 'lodash.debounce';
 import './style.css';
 
 function Textarea(props) {
-  const { onChange = () => {}, type = 'text', theme = '', value, placeholder, rows } = props;
+  const { onChange = () => {}, type = 'text', theme = '', value, rows } = props;
   // Внутренний стейт для быстрого отображения ввода
   const [text, setValue] = useState(value);
 
@@ -26,7 +26,6 @@ function Textarea(props) {
     <textarea
       className={cn({ theme: theme })}
       value={text}
-      placeholder={placeholder}
       onChange={onChangeHandler}
       rows={rows}
     >
@@ -36,7 +35,6 @@ function Textarea(props) {
 
 Textarea.propTypes = {
   value: PropTypes.string,
-  placeholder: PropTypes.string,
   rows: PropTypes.string,
   onChange: PropTypes.func,
   theme: PropTypes.string,

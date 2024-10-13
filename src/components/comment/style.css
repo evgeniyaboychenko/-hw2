@@ -1,13 +1,12 @@
 .Comment {
   margin-bottom: 30px;
   margin-left: -30px;
-
-
 }
 .Comment-text {
   margin-top: 10px;
   font-size: 14px;
   margin-bottom: 6px;
+  word-break: break-all;
 }
 
 .Comment-top {
@@ -24,6 +23,10 @@
 .Comment-user {
   font-size: 12px;
   font-weight: 700;
+}
+
+.Comment-user_color-grey {
+ color: #666666;
 }
 
 .Comment-answer {

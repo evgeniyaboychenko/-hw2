@@ -2,7 +2,7 @@ import { memo, useCallback, useMemo } from 'react';
 import useStore from '../../hooks/use-store';
 import useInit from '../../hooks/use-init';
 import { useParams } from 'react-router-dom';
-// import useSelector from '../../hooks/use-selector';
+import useSelector from '../../hooks/use-selector';
 import useTranslate from '../../hooks/use-translate';
 import Item from '../../components/item';
 import List from '../../components/list';
@@ -11,7 +11,8 @@ import Spinner from '../../components/spinner';
 import CommentsSection from '../../components/comments';
 import commentsActions from '../../store-redux/comments/actions';
 import shallowequal from 'shallowequal';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useSelector as  useSelectorRedux  }from 'react-redux';
 import treeToList from '../../utils/tree-to-list';
 import listToTree from '../../utils/list-to-tree';
 
@@ -20,8 +21,11 @@ function Comments() {
   const dispatch = useDispatch();
   const params = useParams();
 
+  const select = useSelector(state => ({
+    user: state.session.user,
+  }));
 
-  const select = useSelector(
+  const selectRedux = useSelectorRedux(
   state => ({
     commentList: state.comments.commentList,
     waiting: state.comments.waiting,
@@ -48,15 +52,15 @@ function Comments() {
   const options = {
     comments: useMemo(
       () => [
-        ...listToTree(select.commentList),
+        ...listToTree(selectRedux.commentList),
       ],
-      [select.commentList],
+      [selectRedux.commentList],
     ),
   };
 
   return (
-    <Spinner active={select.waiting}>
-      <CommentsSection comments={options.comments} onAnswer={callbacks.onAnswer} activeId={select.activeId} count={select.commentList.length}/>
+    <Spinner active={selectRedux.waiting}>
+      <CommentsSection comments={options.comments} onAnswer={callbacks.onAnswer}  authUser={select.user.profile?.name} activeId={selectRedux.activeId} count={selectRedux.commentList.length}/>
     </Spinner>
   );
 }

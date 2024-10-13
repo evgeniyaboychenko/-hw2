@@ -66,7 +66,7 @@ function CommentForm({answer=false, label='Новый комментарий',  
       {select.exists ? (
         <form className = 'CommentForm' onSubmit={callbacks.onSubmit}>
         <Field label={label} typeField = 'textarea'>
-          <Textarea rows="4" value={value} onChange={callbacks.onChange} placeholder='Текст'></Textarea>
+          <Textarea rows="4" value={value} onChange={callbacks.onChange}></Textarea>
         </Field>
         <SideLayout>
             <button type="submit">Отправить</button>
